@@ -41,10 +41,10 @@ class EpeverChargeController(minimalmodbus.Instrument):
 
     @retry(wait_fixed=200, stop_max_attempt_number=5)
     def retriable_read_register(
-        self, registeraddress, number_of_decimals, functioncode
+        self, registeraddress, number_of_decimals, functioncode, signed=False
     ):
         return self.read_register(
-            registeraddress, number_of_decimals, functioncode, False
+            registeraddress, number_of_decimals, functioncode, signed
         )
 
     @retry(wait_fixed=200, stop_max_attempt_number=5)
@@ -381,6 +381,38 @@ class EpeverChargeController(minimalmodbus.Instrument):
     def get_discharging_limit_voltage(self):
         """Discharging limit voltage"""
         return self.retriable_read_register(0x900E, 2, 3)
+
+    def get_battery_upper_temperature_limit(self):
+        """Battery upper temperature limit """
+        return self.retriable_read_register(0x9017, 2, 3, signed=True)
+
+    def set_battery_upper_temperature_limit(self, temperature: float):
+        """Set Battery upper temperature limit"""
+        self.write_register(0x9017, temperature, 2, 0x10, signed=True)
+
+    def get_battery_lower_temperature_limit(self):
+        """Battery lower temperature limit """
+        return self.retriable_read_register(0x9018, 2, 3, signed=True)
+
+    def set_battery_lower_temperature_limit(self, temperature: float):
+        """Set Battery lower temperature limit """
+        self.write_register(0x9018, temperature, 2, 0x10, signed=True)
+
+    def get_device_over_temperature(self):
+        """Device over temperature"""
+        return self.retriable_read_register(0x9019, 2, 3, signed=True)
+
+    def set_device_over_temperature(self, temperature: float):
+        """Set Device over temperature"""
+        self.write_register(0x9019, temperature, 2, 0x10, signed=True)
+
+    def get_device_recovery_temperature(self):
+        """Device recovery temperature"""
+        return self.retriable_read_register(0x901A, 2, 3, signed=True)
+
+    def set_device_recovery_temperature(self, temperature: float):
+        """Set Device recovery temperature"""
+        self.write_register(0x901A, temperature, 2, 0x10, signed=True)
 
     def get_battery_rated_voltage(self):
         """Battery rated voltage"""

@@ -111,6 +111,14 @@ def main():
     print(f"Battery charge: {controller.get_battery_charge()}%")
     print(f"Charging mode: {controller.get_charging_mode()}")
 
+    # controller.set_battery_upper_temperature_limit(65.0)
+    # controller.set_battery_lower_temperature_limit(-40.0)
+    # controller.set_device_over_temperature(85.0)
+    # controller.set_device_recovery_temperature(75.0)
+    print(f"Battery upper temperature limit: {controller.get_battery_upper_temperature_limit()}")
+    print(f"Battery lower temperature limit: {controller.get_battery_lower_temperature_limit()}")
+    print(f"Device over temperature: {controller.get_device_over_temperature()}")
+    print(f"Device recovery temperature: {controller.get_device_recovery_temperature()}")
 
 if __name__ == "__main__":
     main()
